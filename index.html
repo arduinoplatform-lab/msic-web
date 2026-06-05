@@ -6,23 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Kod Sistem MSIC</title>
     
-    <!-- Trik Memintas Laluan Assets yang Tegar -->
-    <script>
-      // 1. Set baseUrl rasmi untuk Expo Router
-      window.__expo = window.__expo || {};
-      window.__expo.baseUrl = '/msic-web';
-
-      // 2. Trik memintas Service Worker / Fetch jika aplikasi cuba cari di root utama
-      const originalFetch = window.fetch;
-      window.fetch = function(...args) {
-        if (typeof args[0] === 'string' && args[0].startsWith('/assets/')) {
-          args[0] = '/msic-web' + args[0];
-        }
-        return originalFetch.apply(this, args);
-      };
-    </script>
-
-    <!-- The `react-native-web` recommended style reset -->
     <style id="expo-reset">
       html,
       body {
@@ -37,8 +20,7 @@
         flex: 1;
       }
     </style>
-    <!-- Ubah suai favicon supaya cari dalam repo msic-web -->
-    <link rel="icon" href="./favicon.ico" />
+    <link rel="icon" href="/favicon.ico" />
   </head>
 
   <body>
@@ -48,7 +30,6 @@
     
     <div id="root"></div>
     
-    <!-- Jalankan fail JavaScript utama -->
-    <script src="./_expo/static/js/web/index-eb102d7eff63d8361917b2b4ba1e0d13.js" defer></script>
+    <script src="/_expo/static/js/web/index-eb102d7eff63d8361917b2b4ba1e0d13.js" defer></script>
   </body>
 </html>
