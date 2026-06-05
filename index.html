@@ -33,6 +33,13 @@
         outline: none !important;
         box-shadow: none !important;
       }
+
+      /* 4. CSS ORDER TRICK: Paksa susunan secara visual menggunakan CSS Flexbox */
+      .susun-1 { order: 1 !important; }
+      .susun-2 { order: 2 !important; }
+      .susun-3 { order: 3 !important; }
+      .susun-4 { order: 4 !important; }
+      .susun-5 { order: 5 !important; }
     </style>
     
     <link rel="icon" href="./favicon.ico" />
@@ -50,57 +57,58 @@
     
     <script src="./_expo/static/js/web/index-eb102d7eff63d8361917b2b4ba1e0d13.js?v=4" defer></script>
 
-    <!-- 4. SCRIPT PENJINAK: Paksa susunan kategori ikut kehendak client tanpa ubah kod asal -->
+    <!-- 5. SCRIPT PENJINAK VERSI AGRESIF: Tanam class order pada butang induk -->
     <script>
       (function() {
-        // Urutan tepat yang diminta oleh client
-        const urutanSaranan = ["Pertanian", "Pembuatan", "Pembinaan", "Perkhidmatan", "Industri Lain"];
+        const urutanSaranan = {
+          "PERTANIAN": "susun-1",
+          "PEMBUATAN": "susun-2",
+          "PEMBINAAN": "susun-3",
+          "PERKHIDMATAN": "susun-4",
+          "INDUSTRI LAIN": "susun-5"
+        };
 
-        function susunKategori() {
-          // Cari semua elemen teks dalam skrin
-          const semuaElemen = document.querySelectorAll('div, span, p, a');
-          let senaraiButang = {};
-          let kontenaInduk = null;
-
-          // Padankan elemen berdasarkan teks kategori
-          semuaElemen.forEach(el => {
-            if (el.children.length === 0 && el.textContent) {
-              const teks = el.textContent.trim();
-              if (urutanSaranan.includes(teks)) {
-                // Naik ke atas cari wrapper butang utama (React Native Web biasanya pakai div biasa)
-                let butang = el;
-                while (butang && butang.parentElement && !butang.getAttribute('data-testid') && butang.parentElement.id !== 'root') {
-                  // Berhenti jika kontena itu ada susunan flex-row (kontena menu)
-                  const style = window.getComputedStyle(butang.parentElement);
-                  if (style.flexDirection === 'row' || butang.parentElement.children.length >= 3) {
-                    break;
+        function paksaSusunCSS() {
+          // Guna querySelectorAll untuk cari semua tag elemen teks
+          const semuaTeks = document.querySelectorAll('div, span, p');
+          
+          semuaTeks.forEach(el => {
+            if (el.textContent) {
+              const teksBersih = el.textContent.trim().toUpperCase();
+              
+              // Jika terjumpa salah satu nama kategori
+              if (urutanSaranan[teksBersih]) {
+                const namaClassOrder = urutanSaranan[teksBersih];
+                
+                // Cari blok petak butang utama (biasanya ada style cursor pointer atau naik 3-4 tingkat ke atas)
+                let petakButang = el;
+                for (let i = 0; i < 4; i++) {
+                  if (petakButang && petakButang.parentElement) {
+                    // Semak jika parent dia mengandungi butang-butang lain (iaitu kontena menu)
+                    if (petakButang.parentElement.children.length >= 3) {
+                      break;
+                    }
+                    petakButang = petakButang.parentElement;
                   }
-                  butang = butang.parentElement;
                 }
                 
-                if (butang && butang.parentElement) {
-                  kontenaInduk = butang.parentElement;
-                  senaraiButang[teks] = butang;
+                // Tambah class order pada petak butang dan pastikan kontena induk guna display flex
+                if (petakButang) {
+                  petakButang.classList.add(namaClassOrder);
+                  if (petakButang.parentElement) {
+                    petakButang.parentElement.style.display = 'flex';
+                  }
                 }
               }
             }
           });
-
-          // Jika kontena induk dijumpai, susun semula susunan DOM mengikut urutan array
-          if (kontenaInduk && Object.keys(senaraiButang).length >= 2) {
-            urutanSaranan.forEach(nama => {
-              if (senaraiButang[nama]) {
-                kontenaInduk.appendChild(senaraiButang[nama]);
-              }
-            });
-          }
         }
 
-        // Semak dan paksa susunan setiap 300ms (Sebab React kerap render semula elemen)
-        const runInterval = setInterval(susunKategori, 300);
+        // Jalankan imbasan pantas setiap 200ms sebaik sahaja skrin dipaparkan
+        const monitorSistem = setInterval(paksaSusunCSS, 200);
         
-        // Hentikan fungsi semakan selepas 6 saat untuk jimatkan pemprosesan fon
-        setTimeout(() => clearInterval(runInterval), 6000);
+        // Matikan interval selepas 7 saat untuk elakkan lagging
+        setTimeout(() => clearInterval(monitorSistem), 7000);
       })();
     </script>
   </body>
