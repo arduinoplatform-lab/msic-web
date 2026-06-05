@@ -13,8 +13,8 @@
       /* 2. RESPONSIVE FIX: Menggunakan Dynamic Viewport Height (dvh) untuk elak isu keyboard bertindih */
       html,
       body {
-        height: 100vh;
-        height: 100dvh; /* Skrin akan melentur automatik mengikut saiz keyboard iPhone */
+        height: 100vh !important;
+        height: 100dvh !important; /* !important memaksa browser ikut saiz keyboard iPhone */
         width: 100%;
         margin: 0;
         padding: 0;
@@ -23,9 +23,15 @@
       }
       #root {
         display: flex;
-        height: 100vh;
-        height: 100dvh; /* Mengikut saiz dinamik badan utama */
+        height: 100vh !important;
+        height: 100dvh !important;
         width: 100%;
+      }
+
+      /* 3. FIX BOX BIRU: Buang semua border biru menyala semasa kotak input ditekan */
+      input, select, textarea, button, [component="TextInput"] {
+        outline: none !important;
+        box-shadow: none !important;
       }
     </style>
     
