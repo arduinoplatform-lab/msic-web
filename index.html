@@ -10,10 +10,11 @@
     
     <!-- The `react-native-web` recommended style reset -->
     <style id="expo-reset">
-      /* 2. RESPONSIVE FIX: Memastikan saiz asas mengikut 100% skrin tanpa cacat */
+      /* 2. RESPONSIVE FIX: Menggunakan Dynamic Viewport Height (dvh) untuk elak isu keyboard bertindih */
       html,
       body {
-        height: 100%;
+        height: 100vh;
+        height: 100dvh; /* Skrin akan melentur automatik mengikut saiz keyboard iPhone */
         width: 100%;
         margin: 0;
         padding: 0;
@@ -22,7 +23,8 @@
       }
       #root {
         display: flex;
-        height: 100%;
+        height: 100vh;
+        height: 100dvh; /* Mengikut saiz dinamik badan utama */
         width: 100%;
       }
     </style>
