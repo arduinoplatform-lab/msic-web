@@ -49,5 +49,59 @@
     <div id="root"></div>
     
     <script src="./_expo/static/js/web/index-eb102d7eff63d8361917b2b4ba1e0d13.js?v=4" defer></script>
+
+    <!-- 4. SCRIPT PENJINAK: Paksa susunan kategori ikut kehendak client tanpa ubah kod asal -->
+    <script>
+      (function() {
+        // Urutan tepat yang diminta oleh client
+        const urutanSaranan = ["Pertanian", "Pembuatan", "Pembinaan", "Perkhidmatan", "Industri Lain"];
+
+        function susunKategori() {
+          // Cari semua elemen teks dalam skrin
+          const semuaElemen = document.querySelectorAll('div, span, p, a');
+          let senaraiButang = {};
+          let kontenaInduk = null;
+
+          // Padankan elemen berdasarkan teks kategori
+          semuaElemen.forEach(el => {
+            if (el.children.length === 0 && el.textContent) {
+              const teks = el.textContent.trim();
+              if (urutanSaranan.includes(teks)) {
+                // Naik ke atas cari wrapper butang utama (React Native Web biasanya pakai div biasa)
+                let butang = el;
+                while (butang && butang.parentElement && !butang.getAttribute('data-testid') && butang.parentElement.id !== 'root') {
+                  // Berhenti jika kontena itu ada susunan flex-row (kontena menu)
+                  const style = window.getComputedStyle(butang.parentElement);
+                  if (style.flexDirection === 'row' || butang.parentElement.children.length >= 3) {
+                    break;
+                  }
+                  butang = butang.parentElement;
+                }
+                
+                if (butang && butang.parentElement) {
+                  kontenaInduk = butang.parentElement;
+                  senaraiButang[teks] = butang;
+                }
+              }
+            }
+          });
+
+          // Jika kontena induk dijumpai, susun semula susunan DOM mengikut urutan array
+          if (kontenaInduk && Object.keys(senaraiButang).length >= 2) {
+            urutanSaranan.forEach(nama => {
+              if (senaraiButang[nama]) {
+                kontenaInduk.appendChild(senaraiButang[nama]);
+              }
+            });
+          }
+        }
+
+        // Semak dan paksa susunan setiap 300ms (Sebab React kerap render semula elemen)
+        const runInterval = setInterval(susunKategori, 300);
+        
+        // Hentikan fungsi semakan selepas 6 saat untuk jimatkan pemprosesan fon
+        setTimeout(() => clearInterval(runInterval), 6000);
+      })();
+    </script>
   </body>
 </html>
