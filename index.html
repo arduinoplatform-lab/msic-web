@@ -3,21 +3,27 @@
   <head>
     <meta charset="utf-8" />
     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    
+    <!-- 1. KUNCI VIEWPORT: Menghalang auto-zoom & picit jari (pinch-to-zoom) pada Phone -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
     <title>Kod Sistem MSIC</title>
     
     <!-- The `react-native-web` recommended style reset -->
     <style id="expo-reset">
+      /* 2. RESPONSIVE FIX: Memastikan saiz asas mengikut 100% skrin tanpa cacat */
       html,
       body {
         height: 100%;
-      }
-      body {
-        overflow: hidden;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Menghalang skrin utama daripada digoyang terkeluar bucu */
+        -webkit-text-size-adjust: 100%; /* Menghalang iPhone daripada auto-besarkan teks */
       }
       #root {
         display: flex;
         height: 100%;
+        width: 100%;
       }
     </style>
     
