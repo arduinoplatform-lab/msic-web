@@ -3,14 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
     <title>Kod Sistem MSIC</title>
     
     <style id="expo-reset">
-      /* RESPONSIVE FIX */
-      html,
-      body {
+      html, body {
         height: 100vh !important;
         height: 100dvh !important;
         width: 100%;
@@ -25,76 +22,21 @@
         height: 100dvh !important;
         width: 100%;
       }
-
-      /* FIX BOX BIRU */
       input, select, textarea, button, [component="TextInput"] {
         outline: none !important;
         box-shadow: none !important;
       }
-
-      /* ================================================================= */
-      /* KUASA CSS MUTLAK: PAKSA SUSUNAN KATEGORI TANPA JAVASCRIPT */
-      /* ================================================================= */
-      
-      /* 1. Cari elemen kontena yang memegang semua butang kategori popular dan aktifkan Flexbox */
-      div[style*="flex-direction"][style*="row"], 
-      div[style*="flexDirection"][style*="row"] {
-        display: flex !important;
-      }
-
-      /* 2. Kesan teks di dalam butang, cari bapa butang tersebut, dan paksa susunan (Flex Order) */
-      div:has(> div:contains("Pertanian")), 
-      div:has(> span:contains("Pertanian")),
-      div:has(> *:contains("Pertanian")) { 
-        order: 1 !important; 
-      }
-
-      div:has(> div:contains("Pembuatan")), 
-      div:has(> span:contains("Pembuatan")),
-      div:has(> *:contains("Pembuatan")) { 
-        order: 2 !important; 
-      }
-
-      div:has(> div:contains("Pembinaan")), 
-      div:has(> span:contains("Pembinaan")),
-      div:has(> *:contains("Pembinaan")) { 
-        order: 3 !important; 
-      }
-
-      div:has(> div:contains("Perkhidmatan")), 
-      div:has(> span:contains("Perkhidmatan")),
-      div:has(> *:contains("Perkhidmatan")) { 
-        order: 4 !important; 
-      }
-
-      div:has(> div:contains("Industri Lain")), 
-      div:has(> span:contains("Industri Lain")),
-      div:has(> *:contains("Industri Lain")) { 
-        order: 5 !important; 
-      }
-      /* ================================================================= */
     </style>
     
     <link rel="icon" href="./favicon.ico" />
     
-    <link rel="apple-touch-icon" href="./assets/logo-baru.png?v=100" />
-
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Sistem MSIC" />
-
-    <link rel="apple-touch-startup-image" href="./assets/splash-baru.png?v=100" />
-    <link rel="apple-touch-startup-image" href="./assets/splash-baru.png?v=100" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" /> 
-    <link rel="apple-touch-startup-image" href="./assets/splash-baru.png?v=100" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-icon" href="./assets/logo.2a8899cba02a3e3a00d566457322ffcf.png" />
   </head>
 
   <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    
+    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     
-    <script src="./_expo/static/js/web/index-eb102d7eff63d8361917b2b4ba1e0d13.js?v=100" defer></script>
+    <script src="./_expo/static/js/web/index-eb102d7eff63d8361917b2b4ba1e0d13.js" defer></script>
   </body>
 </html>
