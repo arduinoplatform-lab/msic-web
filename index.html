@@ -7,90 +7,208 @@
     <title>Kod Sistem MSIC</title>
     
     <style id="expo-reset">
-      /* RESPONSIVE FIX */
       html, body {
         height: 100vh !important;
         height: 100dvh !important;
         width: 100%;
         margin: 0;
         padding: 0;
-        overflow: hidden;
-        -webkit-text-size-adjust: 100%;
+        background-color: #f0f2f5;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        overflow-x: hidden;
       }
       #root {
         display: flex;
-        height: 100vh !important;
-        height: 100dvh !important;
+        flex-direction: column;
         width: 100%;
-      }
-      /* FIX BOX BIRU */
-      input, select, textarea, button, [component="TextInput"] {
-        outline: none !important;
-        box-shadow: none !important;
+        height: 100%;
       }
 
-      /* ================================================================= */
-      /* TAKTIK NUKLEAR CSS ORDER: SUSUN IKUT KEDUDUKAN ASAL (INDEX POSITION) */
-      /* ================================================================= */
-      
-      /* Cari kontena menu kategori popular (elemen yang ada 5 anak butang di dalam) */
-      div[style*="flex-direction"][style*="row"] > div, 
-      div[style*="flexDirection"][style*="row"] > div {
-        /* Paksa kontena induk mereka kekal aktifkan kuasa Flexbox */
+      /* ── SPLASH SCREEN ── */
+      #splash-screen {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+      #splash-screen img {
+        width: 220px;
+        max-width: 70vw;
+        object-fit: contain;
+      }
+      #splash-screen.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* ── HEADER WITH LOGO ── */
+      .app-header {
+        background-color: #ffffff;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #e1e4e8;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      }
+      .app-header img {
+        height: 40px;
+        object-fit: contain;
+      }
+      .app-header .header-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #1a1a1a;
+        margin-left: 10px;
+      }
+
+      /* ── SEARCH ── */
+      .search-container {
+        padding: 16px;
+        background-color: #ffffff;
+        margin-bottom: 12px;
+      }
+      .search-box {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #e1e4e8;
+        border-radius: 8px;
+        font-size: 16px;
+        outline: none;
+        box-sizing: border-box;
+      }
+
+      /* ── SECTION TITLE ── */
+      .section-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #1a1a1a;
+        padding: 12px 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* ── CATEGORY GRID ── */
+      .grid-kategori {
+        display: grid !important;
+        grid-template-columns: repeat(5, 1fr) !important;
+        gap: 12px !important;
+        padding: 0 16px !important;
+        box-sizing: border-box;
+      }
+      .kad-butang {
+        background-color: #ffffff !important;
+        border-radius: 12px !important;
+        padding: 16px 8px !important;
         display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.04) !important;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .kad-butang:active { transform: scale(0.95); }
+      .kad-butang img { width: 32px; height: 32px; margin-bottom: 8px; }
+      .kad-butang span {
+        font-size: 11px;
+        font-weight: bold;
+        color: #000000;
+        text-transform: uppercase;
       }
 
-      /* Susunan Asal: 
-         1: Perkhidmatan -> Kita nak dia pergi No 4
-         2: Pembuatan   -> Kita nak dia kekal No 2
-         3: Pembinaan   -> Kita nak dia kekal No 3
-         4: Pertanian   -> Kita nak dia pergi No 1 (DEPAN SEKALI)
-         5: Industri Lain -> Kita nak dia kekal No 5
-      */
-
-      /* Butang Asal No 1 (Perkhidmatan) -> Campak ke No 4 */
-      div[style*="flex-direction"][style*="row"] > div:nth-child(1),
-      div[style*="flexDirection"][style*="row"] > div:nth-child(1) {
-        order: 4 !important;
+      /* ── MAIN APP (hidden until splash done) ── */
+      #main-app {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.4s ease;
       }
+      #main-app.visible { opacity: 1; }
 
-      /* Butang Asal No 2 (Pembuatan) -> Kekal No 2 */
-      div[style*="flex-direction"][style*="row"] > div:nth-child(2),
-      div[style*="flexDirection"][style*="row"] > div:nth-child(2) {
-        order: 2 !important;
-      }
-
-      /* Butang Asal No 3 (Pembinaan) -> Kekal No 3 */
-      div[style*="flex-direction"][style*="row"] > div:nth-child(3),
-      div[style*="flexDirection"][style*="row"] > div:nth-child(3) {
-        order: 3 !important;
-      }
-
-      /* Butang Asal No 4 (Pertanian) -> SUNTIK PERGI NO 1 (DEPAN SEKALI!) */
-      div[style*="flex-direction"][style*="row"] > div:nth-child(4),
-      div[style*="flexDirection"][style*="row"] > div:nth-child(4) {
-        order: 1 !important;
-      }
-
-      /* Butang Asal No 5 (Industri Lain) -> Kekal No 5 */
-      div[style*="flex-direction"][style*="row"] > div:nth-child(5),
-      div[style*="flexDirection"][style*="row"] > div:nth-child(5) {
-        order: 5 !important;
-      }
-      /* ================================================================= */
+      #fallback-loader { display: none !important; }
     </style>
     
     <link rel="icon" href="./favicon.ico" />
-    
-    <link rel="apple-touch-icon" href="./assets/logo.2a8899cba02a3e3a00d566457322ffcf.png" />
+    <link rel="apple-touch-icon" href="./assets/logo-baru.png?v=fresh" />
   </head>
 
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    
-    <div id="root"></div>
-    
-    <script src="./_expo/static/js/web/index-eb102d7eff63d8361917b2b4ba1e0d13.js" defer></script>
 
-    </body>
+    <!-- SPLASH SCREEN -->
+    <div id="splash-screen">
+      <img src="./assets/splash-baru.png" alt="Loading..." />
+    </div>
+
+    <div id="root">
+      <div id="main-app">
+
+        <!-- HEADER WITH LOGO -->
+        <div class="app-header">
+          <img src="./assets/logo-baru.png" alt="Logo MSIC" />
+          <span class="header-title">Kod Sistem MSIC</span>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-container">
+          <input type="text" class="search-box" placeholder="🔍 Masukkan carian..." />
+        </div>
+
+        <!-- CATEGORIES -->
+        <div class="section-title">Kategori Popular</div>
+        
+        <div class="grid-kategori">
+          <div class="kad-butang" onclick="window.location.href='?kategori=pertanian'">
+            <img src="https://cdn-icons-png.flaticon.com/512/188/188333.png" alt="Pertanian" />
+            <span>Pertanian</span>
+          </div>
+          <div class="kad-butang" onclick="window.location.href='?kategori=pembuatan'">
+            <img src="https://cdn-icons-png.flaticon.com/512/993/993761.png" alt="Pembuatan" />
+            <span>Pembuatan</span>
+          </div>
+          <div class="kad-butang" onclick="window.location.href='?kategori=pembinaan'">
+            <img src="https://cdn-icons-png.flaticon.com/512/4327/4327376.png" alt="Pembinaan" />
+            <span>Pembinaan</span>
+          </div>
+          <div class="kad-butang" onclick="window.location.href='?kategori=perkhidmatan'">
+            <img src="https://cdn-icons-png.flaticon.com/512/1063/1063376.png" alt="Perkhidmatan" />
+            <span>Perkhidmatan</span>
+          </div>
+          <div class="kad-butang" onclick="window.location.href='?kategori=industri_lain'">
+            <img src="https://cdn-icons-png.flaticon.com/512/2906/2906241.png" alt="Industri Lain" />
+            <span>Industri Lain</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      console.log("Sistem MSIC berjaya dimuatkan dengan mod kalis ralat.");
+
+      // Show splash for 2 seconds, then fade out and reveal main app
+      window.addEventListener('DOMContentLoaded', function () {
+        var splash = document.getElementById('splash-screen');
+        var mainApp = document.getElementById('main-app');
+
+        setTimeout(function () {
+          splash.classList.add('hidden');
+          mainApp.classList.add('visible');
+
+          // Remove splash from DOM after transition
+          setTimeout(function () {
+            splash.remove();
+          }, 600);
+        }, 2000);
+      });
+    </script>
+  </body>
 </html>
