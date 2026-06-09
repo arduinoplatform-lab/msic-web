@@ -7,6 +7,7 @@
     <title>Kod Sistem MSIC</title>
     
     <style id="expo-reset">
+      /* RESPONSIVE & LAYOUT BACKGROUND FIX */
       html, body {
         height: 100vh !important;
         height: 100dvh !important;
@@ -24,49 +25,7 @@
         height: 100%;
       }
 
-      /* ── SPLASH SCREEN ── */
-      #splash-screen {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background-color: #ffffff;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        transition: opacity 0.5s ease;
-      }
-      #splash-screen img {
-        width: 220px;
-        max-width: 70vw;
-        object-fit: contain;
-      }
-      #splash-screen.hidden {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      /* ── HEADER WITH LOGO ── */
-      .app-header {
-        background-color: #ffffff;
-        padding: 12px 16px;
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid #e1e4e8;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-      }
-      .app-header img {
-        height: 40px;
-        object-fit: contain;
-      }
-      .app-header .header-title {
-        font-size: 16px;
-        font-weight: bold;
-        color: #1a1a1a;
-        margin-left: 10px;
-      }
-
-      /* ── SEARCH ── */
+      /* FIX BOX INPUT & CARIAN */
       .search-container {
         padding: 16px;
         background-color: #ffffff;
@@ -82,7 +41,7 @@
         box-sizing: border-box;
       }
 
-      /* ── SECTION TITLE ── */
+      /* SEKSYEN UTAMA KATEGORI POPULAR */
       .section-title {
         font-size: 16px;
         font-weight: bold;
@@ -92,14 +51,16 @@
         letter-spacing: 0.5px;
       }
 
-      /* ── CATEGORY GRID ── */
+      /* PRESTASI CSS GRID: PAKSA URUTAN SUSUNAN SECARA TOTAL */
       .grid-kategori {
         display: grid !important;
-        grid-template-columns: repeat(5, 1fr) !important;
+        grid-template-columns: repeat(5, 1fr) !important; /* Bahagi 5 petak sama rata */
         gap: 12px !important;
         padding: 0 16px !important;
         box-sizing: border-box;
       }
+
+      /* REKABENTUK KOTAK BUTANG (IKUT KELAS BARU) */
       .kad-butang {
         background-color: #ffffff !important;
         border-radius: 12px !important;
@@ -113,8 +74,16 @@
         cursor: pointer;
         transition: transform 0.2s;
       }
-      .kad-butang:active { transform: scale(0.95); }
-      .kad-butang img { width: 32px; height: 32px; margin-bottom: 8px; }
+      .kad-butang:active {
+        transform: scale(0.95);
+      }
+
+      .kad-butang img {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 8px;
+      }
+
       .kad-butang span {
         font-size: 11px;
         font-weight: bold;
@@ -122,70 +91,52 @@
         text-transform: uppercase;
       }
 
-      /* ── MAIN APP (hidden until splash done) ── */
-      #main-app {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        transition: opacity 0.4s ease;
+      /* MATIKAN KOMPONEN EXPO YANG CRASH */
+      #fallback-loader {
+        display: none !important;
       }
-      #main-app.visible { opacity: 1; }
-
-      #fallback-loader { display: none !important; }
     </style>
     
     <link rel="icon" href="./favicon.ico" />
+    
     <link rel="apple-touch-icon" href="./assets/logo-baru.png?v=fresh" />
   </head>
 
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-
-    <!-- SPLASH SCREEN -->
-    <div id="splash-screen">
-      <img src="./assets/splash-baru.png" alt="Loading..." />
-    </div>
-
+    
     <div id="root">
-      <div id="main-app">
+      <div class="search-container">
+        <input type="text" class="search-box" placeholder="🔍 Masukkan carian..." />
+      </div>
 
-        <!-- HEADER WITH LOGO -->
-        <div class="app-header">
-          <img src="./assets/logo-baru.png" alt="Logo MSIC" />
-          <span class="header-title">Kod Sistem MSIC</span>
-        </div>
-
-        <!-- SEARCH -->
-        <div class="search-container">
-          <input type="text" class="search-box" placeholder="🔍 Masukkan carian..." />
-        </div>
-
-        <!-- CATEGORIES -->
-        <div class="section-title">Kategori Popular</div>
+      <div class="section-title">Kategori Popular</div>
+      
+      <div class="grid-kategori">
         
-        <div class="grid-kategori">
-          <div class="kad-butang" onclick="window.location.href='?kategori=pertanian'">
-            <img src="https://cdn-icons-png.flaticon.com/512/188/188333.png" alt="Pertanian" />
-            <span>Pertanian</span>
-          </div>
-          <div class="kad-butang" onclick="window.location.href='?kategori=pembuatan'">
-            <img src="https://cdn-icons-png.flaticon.com/512/993/993761.png" alt="Pembuatan" />
-            <span>Pembuatan</span>
-          </div>
-          <div class="kad-butang" onclick="window.location.href='?kategori=pembinaan'">
-            <img src="https://cdn-icons-png.flaticon.com/512/4327/4327376.png" alt="Pembinaan" />
-            <span>Pembinaan</span>
-          </div>
-          <div class="kad-butang" onclick="window.location.href='?kategori=perkhidmatan'">
-            <img src="https://cdn-icons-png.flaticon.com/512/1063/1063376.png" alt="Perkhidmatan" />
-            <span>Perkhidmatan</span>
-          </div>
-          <div class="kad-butang" onclick="window.location.href='?kategori=industri_lain'">
-            <img src="https://cdn-icons-png.flaticon.com/512/2906/2906241.png" alt="Industri Lain" />
-            <span>Industri Lain</span>
-          </div>
+        <div class="kad-butang" onclick="window.location.href='?kategori=pertanian'">
+          <img src="https://cdn-icons-png.flaticon.com/512/188/188333.png" alt="Pertanian" />
+          <span>Pertanian</span>
+        </div>
+
+        <div class="kad-butang" onclick="window.location.href='?kategori=pembuatan'">
+          <img src="https://cdn-icons-png.flaticon.com/512/993/993761.png" alt="Pembuatan" />
+          <span>Pembuatan</span>
+        </div>
+
+        <div class="kad-butang" onclick="window.location.href='?kategori=pembinaan'">
+          <img src="https://cdn-icons-png.flaticon.com/512/4327/4327376.png" alt="Pembinaan" />
+          <span>Pembinaan</span>
+        </div>
+
+        <div class="kad-butang" onclick="window.location.href='?kategori=perkhidmatan'">
+          <img src="https://cdn-icons-png.flaticon.com/512/1063/1063376.png" alt="Perkhidmatan" />
+          <span>Perkhidmatan</span>
+        </div>
+
+        <div class="kad-butang" onclick="window.location.href='?kategori=industri_lain'">
+          <img src="https://cdn-icons-png.flaticon.com/512/2906/2906241.png" alt="Industri Lain" />
+          <span>Industri Lain</span>
         </div>
 
       </div>
@@ -193,22 +144,6 @@
 
     <script>
       console.log("Sistem MSIC berjaya dimuatkan dengan mod kalis ralat.");
-
-      // Show splash for 2 seconds, then fade out and reveal main app
-      window.addEventListener('DOMContentLoaded', function () {
-        var splash = document.getElementById('splash-screen');
-        var mainApp = document.getElementById('main-app');
-
-        setTimeout(function () {
-          splash.classList.add('hidden');
-          mainApp.classList.add('visible');
-
-          // Remove splash from DOM after transition
-          setTimeout(function () {
-            splash.remove();
-          }, 600);
-        }, 2000);
-      });
     </script>
   </body>
 </html>
