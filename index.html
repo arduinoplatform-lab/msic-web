@@ -7,6 +7,7 @@
     <title>Kod Sistem MSIC</title>
     
     <style id="expo-reset">
+      /* RESPONSIVE FIX */
       html, body {
         height: 100vh !important;
         height: 100dvh !important;
@@ -22,10 +23,18 @@
         height: 100dvh !important;
         width: 100%;
       }
+      /* FIX BOX BIRU */
       input, select, textarea, button, [component="TextInput"] {
         outline: none !important;
         box-shadow: none !important;
       }
+
+      /* KELAS SUSUNAN VISUAL (FLEX ORDER) */
+      .susun-1 { order: 1 !important; }
+      .susun-2 { order: 2 !important; }
+      .susun-3 { order: 3 !important; }
+      .susun-4 { order: 4 !important; }
+      .susun-5 { order: 5 !important; }
     </style>
     
     <link rel="icon" href="./favicon.ico" />
@@ -38,5 +47,70 @@
     <div id="root"></div>
     
     <script src="./_expo/static/js/web/index-eb102d7eff63d8361917b2b4ba1e0d13.js" defer></script>
+
+    <script>
+      (function() {
+        const urutanSaranan = {
+          "PERTANIAN": "susun-1",
+          "PEMBUATAN": "susun-2",
+          "PEMBINAAN": "susun-3",
+          "PERKHIDMATAN": "susun-4",
+          "INDUSTRI LAIN": "susun-5"
+        };
+
+        function paksaSusunCSS() {
+          // Cari semua elemen teks dalam halaman
+          const semuaTeks = document.querySelectorAll('div, span, p');
+          
+          semuaTeks.forEach(el => {
+            // SAFETY CHECK 1: Pastikan elemen masih wujud di dalam halaman semasa skrip berjalan
+            if (!el || !document.body.contains(el)) return;
+
+            if (el.textContent) {
+              const teksBersih = el.textContent.trim().toUpperCase();
+              
+              if (urutanSaranan[teksBersih]) {
+                const namaClassOrder = urutanSaranan[teksBersih];
+                
+                // Cari blok petak induk butang (naik ke atas secara selamat)
+                let petakButang = el;
+                for (let i = 0; i < 4; i++) {
+                  // SAFETY CHECK 2: Pastikan parent elemen tidak kosong semasa mendaki DOM tree
+                  if (petakButang && petakButang.parentElement) {
+                    if (petakButang.parentElement.children.length >= 3) {
+                      break;
+                    }
+                    petakButang = petakButang.parentElement;
+                  }
+                }
+                
+                // SAFETY CHECK 3: Terapkan kelas susunan hanya jika node butang dan induknya sah wujud
+                if (petakButang && document.body.contains(petakButang)) {
+                  if (!petakButang.classList.contains(namaClassOrder)) {
+                    petakButang.classList.add(namaClassOrder);
+                  }
+                  if (petakButang.parentElement) {
+                    petakButang.parentElement.style.display = 'flex';
+                  }
+                }
+              }
+            }
+          });
+        }
+
+        // Jalankan imbasan secara berkala dengan selamat
+        const monitorSistem = setInterval(() => {
+          try {
+            paksaSusunCSS();
+          } catch (e) {
+            // Jika ada ralat render dari React Native, abaikan secara senyap tanpa crash sistem
+            console.log("Sistem sedang menyusun elemen...");
+          }
+        }, 300);
+        
+        // Tutup pemantauan selepas 8 saat untuk jimatkan bateri telefon
+        setTimeout(() => clearInterval(monitorSistem), 8000);
+      })();
+    </script>
   </body>
 </html>
