@@ -40,9 +40,9 @@
       .susun-5 { order: 5 !important; }
     </style>
     
-    <link rel="icon" href="./favicon.ico?v=2" />
+    <link rel="icon" href="./favicon.ico?v=3" />
     
-    <link rel="apple-touch-icon" href="./assets/logo.2a8899cba02a3e3a00d566457322ffcf.png?v=2" />
+    <link rel="apple-touch-icon" href="./assets/logo.2a8899cba02a3e3a00d566457322ffcf.png?v=3" />
   </head>
 
   <body>
@@ -65,22 +65,19 @@
         };
 
         function paksaSusunCSS() {
-          // Guna querySelectorAll untuk cari semua tag elemen teks
           const semuaTeks = document.querySelectorAll('div, span, p');
           
-          semuks = semuaTeks.forEach(el => {
+          // TAIPO 'semuks =' TELAH DIBUANG SUPAYA KOD TIDAK ERROR
+          semuaTeks.forEach(el => {
             if (el.textContent) {
               const teksBersih = el.textContent.trim().toUpperCase();
               
-              // Jika terjumpa salah satu nama kategori
               if (urutanSaranan[teksBersih]) {
                 const namaClassOrder = urutanSaranan[teksBersih];
                 
-                // Cari blok petak butang utama (biasanya ada style cursor pointer atau naik 3-4 tingkat ke atas)
                 let petakButang = el;
                 for (let i = 0; i < 4; i++) {
                   if (petakButang && petakButang.parentElement) {
-                    // Semak jika parent dia mengandungi butang-butang lain (iaitu kontena menu)
                     if (petakButang.parentElement.children.length >= 3) {
                       break;
                     }
@@ -88,7 +85,6 @@
                   }
                 }
                 
-                // Tambah class order pada petak butang dan pastikan kontena induk guna display flex
                 if (petakButang) {
                   petakButang.classList.add(namaClassOrder);
                   if (petakButang.parentElement) {
@@ -100,11 +96,10 @@
           });
         }
 
-        // Jalankan imbasan pantas setiap 200ms sebaik sahaja skrin dipaparkan
-        const monitorSistem = setInterval(paksaSusunCSS, 200);
+        // Kekerapan imbasan diubah ke 400ms sedikit supaya mengurangkan ralat sentuhan
+        const monitorSistem = setInterval(paksaSusunCSS, 400);
         
-        // Matikan interval selepas 7 saat untuk elakkan lagging
-        setTimeout(() => clearInterval(monitorSistem), 7000);
+        setTimeout(() => clearInterval(monitorSistem), 6000);
       })();
     </script>
   </body>
