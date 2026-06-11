@@ -31,13 +31,6 @@
         outline: none !important;
         box-shadow: none !important;
       }
-
-      /* 4. CSS ORDER TRICK: Paksa susunan secara visual menggunakan CSS Flexbox */
-      .susun-1 { order: 1 !important; }
-      .susun-2 { order: 2 !important; }
-      .susun-3 { order: 3 !important; }
-      .susun-4 { order: 4 !important; }
-      .susun-5 { order: 5 !important; }
     </style>
     
     <link rel="icon" href="./favicon.ico?v=3" />
@@ -52,55 +45,6 @@
     
     <div id="root"></div>
     
-    <script src="./_expo/static/js/web/index-eb102d7eff63d8361917b2b4ba1e0d13.js?v=4" defer></script>
-
-    <script>
-      (function() {
-        const urutanSaranan = {
-          "PERTANIAN": "susun-1",
-          "PEMBUATAN": "susun-2",
-          "PEMBINAAN": "susun-3",
-          "PERKHIDMATAN": "susun-4",
-          "INDUSTRI LAIN": "susun-5"
-        };
-
-        function paksaSusunCSS() {
-          const semuaTeks = document.querySelectorAll('div, span, p');
-          
-          // TAIPO 'semuks =' TELAH DIBUANG SUPAYA KOD TIDAK ERROR
-          semuaTeks.forEach(el => {
-            if (el.textContent) {
-              const teksBersih = el.textContent.trim().toUpperCase();
-              
-              if (urutanSaranan[teksBersih]) {
-                const namaClassOrder = urutanSaranan[teksBersih];
-                
-                let petakButang = el;
-                for (let i = 0; i < 4; i++) {
-                  if (petakButang && petakButang.parentElement) {
-                    if (petakButang.parentElement.children.length >= 3) {
-                      break;
-                    }
-                    petakButang = petakButang.parentElement;
-                  }
-                }
-                
-                if (petakButang) {
-                  petakButang.classList.add(namaClassOrder);
-                  if (petakButang.parentElement) {
-                    petakButang.parentElement.style.display = 'flex';
-                  }
-                }
-              }
-            }
-          });
-        }
-
-        // Kekerapan imbasan diubah ke 400ms sedikit supaya mengurangkan ralat sentuhan
-        const monitorSistem = setInterval(paksaSusunCSS, 400);
-        
-        setTimeout(() => clearInterval(monitorSistem), 6000);
-      })();
-    </script>
+    <script src="./_expo/static/js/web/index-eb102d7eff63d8361917b2b4ba1e0d13.js?v=75" defer></script>
   </body>
 </html>
